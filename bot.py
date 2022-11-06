@@ -191,9 +191,9 @@ def command_handler(users: list, bot_url: str, command: str, chat_id: int):
         send_message(bot_url, chat_id, start_msg)
 
     if command == '/help':
-        help_msg = "1. Use menu to interact with the"
-        + "bot.\n\n2. To get sentences you need to send"
-        + "any word in chat.\n\n3. Your default level"
+        help_msg = "1. Use menu to interact with the"\
+        + "bot.\n\n2. To get sentences you need to send"\
+        + "any word in chat.\n\n3. Your default level"\
         + "is elementary you can change this."
         send_message(bot_url, chat_id, help_msg)
 
