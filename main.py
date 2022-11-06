@@ -2,7 +2,7 @@ import bot
 
 
 def main():
-    bot.run("BOT_TOKEN", True)
+    bot.run("BOT_TOKEN")
 
 
 if __name__ == "__main__":
