@@ -1,3 +1,4 @@
+import json
 import requests
 from os import getenv
 from time import sleep
@@ -14,6 +15,7 @@ def run(token_env_name: str, debug=False):
         # print(bot_url)
         # print(type(get_bot_info(bot_url)))
         #print(get_bot_updates(bot_url))
+        bot_set_commands(bot_url)
         print(bot_echo_polling(bot_url, 3))
     
 
@@ -109,3 +111,35 @@ def bot_echo_polling(bot_url: str, polling_interval=1):
             sleep(5)
             print(e)
             print("Dont have updates, send something to bot!")
+
+
+def bot_set_commands(bot_url: str):
+    """ Set menu with avaliable comands for bot """
+    url = f"{bot_url}/setMyCommands?commands="
+    commands = [
+        {
+            "command": "start",
+            "description": "get started with the bot"
+        },
+        {
+            "command": "time",
+            "description": "send current time"
+        },
+        {
+            "command": "help",
+            "description": "print help message to user"
+        },
+        {
+            "command": "getlvl",
+            "description": "get current level of user"
+        },
+        {
+            "command": "setlvl",
+            "description": "set level to user"
+        }
+    ]
+    commands = json.dumps(commands)
+    url = url + str(commands)
+    response = requests.post(url, timeout=5)
+    
+    return response.status_code
