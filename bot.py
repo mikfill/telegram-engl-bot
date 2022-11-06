@@ -56,6 +56,21 @@ def get_bot_updates(bot_url: str) -> dict:
         return None
 
 
+def get_last_bot_update(bot_url: str) -> tuple:
+    """
+    """
+    url = f"{bot_url}/getUpdates"
+    response = requests.get(url, timeout=5)
+    updates = response.json()
+
+    if updates['result']:
+        last_update_id = updates['result'][-1]['update_id']
+        last_message_id = updates['result'][-1]['message']['message_id']
+        return last_update_id, last_message_id
+    else:
+        return None
+
+
 def parse_message(updates: dict) -> tuple:
     """Get message_id, chat_id and text from last bot update
     """
@@ -86,20 +101,20 @@ def bot_echo_polling(bot_url: str, polling_interval=1):
     """Check bot last update and send echo message to user 
     """
 
-    last_message_id = 0
-    last_update_id = get_bot_updates(bot_url)['result'][-1]['update_id']
-    
+    update = get_bot_updates(bot_url)
+    last_update_id, last_message_id, chat_id, text = parse_message(update)
+    print(f"Last update id = {last_update_id}\nLast message id = {last_message_id}")
+
     while True:
         bot_updates = get_bot_updates(bot_url)
-        ['update_id']
+    
         try:
             update_id, message_id, chat_id, text = parse_message(bot_updates)
-
 
             if message_id > last_message_id and update_id > last_update_id:
                 last_message_id = message_id
                 last_update_id = update_id
-
+                print(f"New message from {chat_id}\nText = {text}")
                 send_message(bot_url, chat_id, text)
                 print(f"Send echo {text} to user {chat_id}")
             else:
