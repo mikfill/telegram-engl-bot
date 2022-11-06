@@ -56,21 +56,6 @@ def get_bot_updates(bot_url: str) -> dict:
         return None
 
 
-def get_last_bot_update(bot_url: str) -> tuple:
-    """
-    """
-    url = f"{bot_url}/getUpdates"
-    response = requests.get(url, timeout=5)
-    updates = response.json()
-
-    if updates['result']:
-        last_update_id = updates['result'][-1]['update_id']
-        last_message_id = updates['result'][-1]['message']['message_id']
-        return last_update_id, last_message_id
-    else:
-        return None
-
-
 def parse_message(updates: dict) -> tuple:
     """Get message_id, chat_id and text from last bot update
     """
