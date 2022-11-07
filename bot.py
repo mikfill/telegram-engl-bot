@@ -191,9 +191,9 @@ def command_handler(users: list, bot_url: str, command: str, chat_id: int):
         send_message(bot_url, chat_id, start_msg)
 
     if command == '/help':
-        help_msg = "1. Use menu to interact with the"\
-        + "bot.\n\n2. To get sentences you need to send"\
-        + "any word in chat.\n\n3. Your default level"\
+        help_msg = "1. Use menu to interact with the "\
+        + "bot.\n\n2. To get sentences you need to send "\
+        + "any word in chat.\n\n3. Your default level "\
         + "is elementary you can change this."
         send_message(bot_url, chat_id, help_msg)
 
@@ -314,7 +314,8 @@ def get_sentences_from_remote(word: str, level: int, amount=10) -> str:
 
 
 def bot_send_sentences(bot_url: str, polling_interval=1, remote=False):
-
+    """Launching the bot in the mode of sending a sentence with the user's word 
+    """
     users = []
     update = get_bot_updates(bot_url)
     is_command, last_update_id, last_message_id, chat_id, last_message_text = parse_message(
