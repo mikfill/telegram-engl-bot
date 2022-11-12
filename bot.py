@@ -318,14 +318,19 @@ def bot_send_sentences(bot_url: str, polling_interval=1, remote=False):
     """
     users = []
     update = get_bot_updates(bot_url)
-    is_command, last_update_id, last_message_id, chat_id, last_message_text = parse_message(
+    try:
+        is_command, last_update_id, last_message_id, chat_id, last_message_text = parse_message(
         update)
-    print(
+        print(
         f"Last update id = {last_update_id}\nLast message id = {last_message_id}")
+    except Exception as e:
+        sleep(5)
+        print(e)
+        print("Dont have updates, send something to bot!")
 
     while True:
         bot_updates = get_bot_updates(bot_url)
-
+        last_message_id = 0
         try:
             is_command, update_id, message_id, chat_id, text = parse_message(
                 bot_updates)
