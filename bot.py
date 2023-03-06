@@ -34,22 +34,19 @@ def run(token_env_name: str, debug=False):
         print(bot_echo_polling(bot_url, 3))
 
     if not debug:
+        bot_set_commands(bot_url)
         bot_send_sentences(bot_url, 2, True)
 
 
 def create_bot_url(token_env: str) -> str:
-    """Create request url for bot
-    Get telegram bot token and root url from ENV
-    variables
-    export ROOT_URL=https://api.telegram.org/bot
+    """Concatenate request url for bot
     export BOT_TOKEN=yourbottoken
     """
-
-    root_url = getenv('ROOT_URL')
+    root_url= 'https://api.telegram.org/bot'
     token = getenv(token_env)
 
     if not token:
-        raise ValueError(f"Dont have env variable with name {token_env}")
+        raise ValueError(f"Dont have value for env variable with name {token_env}")
 
     bot_url = f"{root_url}{token}"
 
@@ -82,6 +79,8 @@ def get_bot_updates(bot_url: str) -> dict:
 
     if updates['result']:
         return updates
+    if len(updates) == 0:
+        return None
     else:
         return None
 
@@ -123,8 +122,10 @@ def bot_echo_polling(bot_url: str, polling_interval=1):
     """Check bot last update and send echo message to user"""
 
     update = get_bot_updates(bot_url)
+    
     is_command, last_update_id, last_message_id, chat_id, text = parse_message(
         update)
+    
     print(
         f"Last update id = {last_update_id}\nLast message id = {last_message_id}")
 
@@ -186,8 +187,8 @@ def command_handler(users: list, bot_url: str, command: str, chat_id: int):
     """Processing bot commands received from chat"""
 
     if command == '/start':
-        start_msg = 'Hello from BeDev English bot!\
-            With me you can learn new words in context'
+        start_msg = "Hello from English bot!\n"\
+        + "With me you can learn new words in context"
         send_message(bot_url, chat_id, start_msg)
 
     if command == '/help':
@@ -314,7 +315,8 @@ def get_sentences_from_remote(word: str, level: int, amount=10) -> str:
 
 
 def bot_send_sentences(bot_url: str, polling_interval=1, remote=False):
-    """Launching the bot in the mode of sending a sentence with the user's word 
+    """
+    Launching the bot in the mode of sending a sentence with the user's word 
     """
     users = []
     update = get_bot_updates(bot_url)
