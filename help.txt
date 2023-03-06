@@ -1,5 +1,5 @@
-docker build --tag bedevbot-docker:v1.0 .
+docker build --tag tbot-docker:v1.0 .
 
-docker run -d --name bot --rm -e ROOT_URL=$ROOT_URL -e BOT_TOKEN=$BOT_TOKEN bedevbot-docker:v1.0 
+docker run -d --name bot --rm -e BOT_TOKEN=$BOT_TOKEN tbot-docker:v1.0 
 
-docker run -d --rm --env-file=.dockerenv --name englbot bebot-docker:v1.0
+docker run -d --rm --env-file=.dockerenv --name englbot tbot-docker:v1.0
